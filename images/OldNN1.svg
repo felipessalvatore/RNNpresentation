@@ -119,9 +119,9 @@
      borderopacity="0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.98994949"
-     inkscape:cx="241.72617"
-     inkscape:cy="362.91547"
+     inkscape:zoom="1.4"
+     inkscape:cx="135.0846"
+     inkscape:cy="287.35068"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -144,7 +144,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -321,14 +321,14 @@
          x="476.89352"
          y="391.13684">σ</tspan></text>
     <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 156.25908,567.54168 c 108.5956,52.18402 135.54197,9.93691 136.59807,124.82053"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.81989306px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 161.57722,546.83209 C 250.614,589.61741 267.35,550.69358 268.21589,644.88587"
        id="path7138"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc" />
     <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 292.94643,692.18364 C 287.48444,612.66129 392.74339,632.791 380.71429,428.79078"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.81989306px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 268.28909,644.73946 C 263.81084,579.53964 389.75478,593.18671 379.89221,425.92834"
        id="path7140"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc" />
@@ -336,17 +336,17 @@
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="251.52797"
-       y="716.99158"
+       y="662.99158"
        id="text7142"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan7144"
          x="251.52797"
-         y="716.99158"
+         y="662.99158"
          style="font-size:25px">Synaptic</tspan><tspan
          sodipodi:role="line"
          x="251.52797"
-         y="748.24158"
+         y="694.24158"
          id="tspan7146"
          style="font-size:25px">link</tspan></text>
     <path
