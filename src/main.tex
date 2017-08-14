@@ -57,7 +57,7 @@
 \end{center}
 \end{frame}
 
-\begin{frame}{Recap}
+\begin{frame}{Recap: basic functions}
 \Large{
  \vspace{0.2cm}
 \begin{equation*}
@@ -191,7 +191,7 @@ A RNN is a function $f$ with two inputs:
 \begin{itemize}
 \item An input vector $\vect{x}$.
 \vspace{0.1cm}
-\item A hidden vector $\vect{h}$ representing a summary of all past inputs, also called \alert{state}.
+\item A hidden vector $\vect{h}$ representing a summary of all past inputs, called \alert{state} or \alert{cell state}.
 \end{itemize}
 
 \vspace{0.2cm}
@@ -230,7 +230,8 @@ f(\vect{x}^{(t)}, \vect{h}^{(t)}; \vect{V}, \vect{W}, \vect{U}, \vect{c}, \vect{
 \end{frame}
 
 \begin{frame}{Unfolding the state equation}
-For a finite number of steps $\tau$, the recurrent definition can be unfolded. For example when $\tau =3$:
+For a finite number of steps $\tau$, the recurrent definition can be unfolded. 
+For example when $\tau =3$:
 \vspace{0.2cm}
 \Large{
 \begin{align*}
@@ -243,26 +244,6 @@ For a finite number of steps $\tau$, the recurrent definition can be unfolded. F
 
 \begin{frame}{Unfolding the graph}
 \input{TikzFiles/RNNSimplifiedUnfolded}
-\end{frame}
-
-
-
-\begin{frame}{Details}
-\begin{itemize}
-\item Instead of using a different function for different input sizes
-
-\[
-f_1(\vect{x}^{(1)}), f_2(\vect{x}^{(1)}, \vect{x}^{(2)}), \dots ,f_n(\vect{x}^{(1)}, \dots, \vect{x}^{(n)})
-\]
-
-
-a RNN model has the same input size.  
-\vspace{0.2cm}
-\item The transition function $g$ have the same parameters at every time step.
-\vspace{0.2cm}
-\item Hence, we can learn a single model $f$ that operates on all time steps and ll sequence lengths.
-\end{itemize}
-
 \end{frame}
 
 \section{Language model}
@@ -349,12 +330,13 @@ P(x_i\vert x_j) = \frac{count(x_i, x_j)}{count(x_j)}
 \end{frame}
 
 \begin{frame}{Perplexity}
-\alert{Perplexity (PP)} can be thought as the weighted average branching factor of a language. The branching factor of a language is the number of possible next words that can follow any word.\\
+\alert{Perplexity (PP)} can be thought as the weighted average branching factor of a language.\\
 
-Given one document $D$ of size $T$, i.e. the document is the sequence $x_1, x_2, \dots, x_T$, we define the perplexity of $D$ as:
+
+Given $C= x_1, x_2, \dots, x_T$, we define the perplexity of $C$ as:
 
 \begin{align*}
-PP(D) &= P(x_1, x_2, \dots, x_T)^{-\frac{1}{T}}\\
+PP(C) &= P(x_1, x_2, \dots, x_T)^{-\frac{1}{T}}\\
 	  & \\
       &= \sqrt[T]{\frac{1}{P(x_1, x_2, \dots, x_T)}}\\
       & \\
@@ -426,13 +408,30 @@ The dataset is a collection of pairs $(\vect{x},\vect{y})$ where $\vect{x}$ is o
 
 \begin{frame}{Notation}
 \begin{itemize}
-\item $\vect{E} \in \mathbb{R}^{|\Vocab|,d}$ is the matrix of word embeddings.
+\item $\vect{E} \in \mathbb{R}^{d,|\Vocab|}$ is the matrix of word embeddings.
 \vspace{0.3cm}
 \item $\vect{x}^{(t)} \in \mathbb{R}^{|\Vocab|}$ is one-hot word vector at time $t$.
 \vspace{0.3cm}
 \item $\vect{y}^{(t)} \in \mathbb{R}^{|\Vocab|}$ is the ground true at time $t$ (also an one-hot word vector).
 \end{itemize}
 \end{frame}
+
+\begin{frame}{Recap: selecting word embeddings}
+\Large{
+\begin{align*}
+  \vect{e} &= \vect{E}   \begin{bmatrix}
+                         0\\
+                         0\\
+                         \vdots \\
+                         1\\
+                         \vdots \\
+                         0
+                         \end{bmatrix}\\         
+			&= \vect{E}_{:,\;j}
+\end{align*}
+ }
+\end{frame}
+
 
 \begin{frame}{The language model: graph}
 \input{TikzFiles/LanguageModelExpanded}
@@ -466,6 +465,13 @@ The dataset is a collection of pairs $(\vect{x},\vect{y})$ where $\vect{x}$ is o
 \input{TikzFiles/LanguageModelUnfolded}
 \end{frame}
 
+\begin{frame}{Recap: cross entropy}
+\Large{
+\begin{equation*}
+CE(\vect{y},\vect{\hat{y}}) = -\sum_{i}\vect{y}_{i}\log(\vect{\hat{y}}_{i})  
+\end{equation*}
+}
+\end{frame}
 
 \begin{frame}{Loss function}
 At each time $t$ the point-wise loss is:
@@ -475,14 +481,14 @@ At each time $t$ the point-wise loss is:
 \begin{align*}
 L^{(t)} &= CE(\vect{y}^{(t)},\vect{\hat{y}}^{(t)})\\
 		&= - \log(\vect{\hat{y}}_{j^{*}})\\
-        &= - \log P(\vect{x}^{(t+1)} = \text{word}_{j^{*}}|\vect{x}^{(1)}, \dots, \vect{x}^{(t)})
+        &= - \log P(x^{(t+1)} = \text{word}_{j^{*}}|x^{(1)}, \dots, x^{(t)})
 \end{align*}
 
  \vspace{0.2cm}
 
 For example:
 \begin{equation*}
-L^{(3)}=- \log P(\vect{x}^{(4)} = \text{become}| \text{Am}, \text{I}, \text{to})
+L^{(3)}=- \log P(x^{(4)} = \text{become}| \text{Am}, \text{I}, \text{to})
 \end{equation*}
 \end{frame}
 
@@ -493,7 +499,7 @@ The loss $L$ is the mean of all the point-wise losses
 L=\frac{1}{T}\sum_{t=1}^{T}L^{(t)}
 \end{equation*}
 
-To give a concrete example, let's take the first sentence of the poem as our Corpus:\\
+To give a concrete example, let's take the first sentence of the poem as $C$:\\
 \begin{quote}
 \alert{Am I to become profligate as if I were a blonde?}
 \end{quote}
@@ -528,15 +534,15 @@ To give a concrete example, let's take the first sentence of the poem as our Cor
 \begin{frame}{Loss and Perplexity}
 Since
 \begin{align*}
-L^{(t)} & = - \log P(\vect{x}^{(t+1)} |\vect{x}^{(1)}, \dots, \vect{x}^{(t)})\\
-& =  \log(\frac{1}{P(\vect{x}^{(t+1)}|\vect{x}^{(1)}, \dots, \vect{x}^{(t)})})\\
+L^{(t)} & = - \log P(x^{(t+1)} |x^{(1)}, \dots, x^{(t)})\\
+& =  \log(\frac{1}{P(x^{(t+1)}|x^{(1)}, \dots, x^{(t)})})\\
 \end{align*}
 We have that:
 
 \begin{align*}
         L &=\frac{1}{T} \sum_{t=1}^{T} L^{(t)}\\
-          &= \log\left( \sqrt[T]{\prod_{i=1}^{T}\frac{1}{P(\vect{x}_i \vert \vect{x}_1,\dots, \vect{x}_{i-1})}} \right)\\
-          &= \log(PP(D))
+          &= \log\left( \sqrt[T]{\prod_{i=1}^{T}\frac{1}{P(x_i \vert x_1,\dots, x_{i-1})}} \right)\\
+          &= \log(PP(C))
 \end{align*}
 \end{frame}
 
@@ -545,7 +551,7 @@ So another definition of perplexity is
 \vspace{0.5cm}
 \Large{
 \begin{equation*}
-2^{L} = PP(D)
+2^{L} = PP(C)
 \end{equation*}
 }
 \end{frame}
@@ -571,8 +577,14 @@ So another definition of perplexity is
 \Large{
 \begin{itemize}
 \item $y = x^2$
+
+\vspace{0.3cm}
+
 \item $z = \log(y)$
 \end{itemize}
+
+\vspace{0.5cm}
+
 \[
 \frac{dz}{dx} = \frac{dz}{dy} \frac{dy}{dx} = \frac{1}{x^2}2x = \frac{2}{x}
 \]
@@ -648,10 +660,14 @@ So another definition of perplexity is
 \Large{
 \begin{itemize}
 \item $\vect{y} = \vect{W}\vect{x}$
-\vspace{0.2cm}
+
+\vspace{0.3cm}
+
 \item $z = \vect{b}^{T}\vect{y}$
 \end{itemize}
-\vspace{0.2cm}
+
+\vspace{0.5cm}
+
 \[
 \grad{\vect{x}}{z} =  \vect{W}^{T}\vect{b}
 \]
@@ -665,8 +681,11 @@ So another definition of perplexity is
 
 \begin{frame}{Computing the gradient in a RNN}
 \begin{itemize}
-\item [] We simple apply the back-propagation algorithm to the unrolled computational graph.
-\item [] We pass a gradient from one subgraph to another. Since each subgraph represents a time step, the application of back-propagation in this model is also called \alert{Back-Propagation Through Time}.
+\item We simple apply the back-propagation algorithm to the unrolled computational graph.
+
+\vspace{0.5cm}
+
+\item Since each subgraph represents a time step, the application of back-propagation in this model is also called \alert{Back-Propagation Through Time}.
 \end{itemize}
 \end{frame}
 
@@ -704,44 +723,157 @@ So another definition of perplexity is
 \input{TikzFiles/rnn-time-unfolding}
 \end{frame}
 
+\begin{frame}{Recap: Hadamard product}
+\Large{
+\begin{equation*}
+(\vect{x} \circ \vect{y})_{i} = \vect{x}_{i} \vect{y}_{i} 
+\end{equation*}
+
+\vspace{0.5cm}
+
+\begin{equation*}
+(\vect{x} \circ \vect{y}) = diag(\vect{y})\vect{x} 
+\end{equation*}
+ }
+\end{frame}
+
 \begin{frame}{Chain rule: RNN graph}
 \input{TikzFiles/rnn-backprop}
 \end{frame}
+
 
 \begin{frame}{Back Propagation Throught Time}
 \input{TikzFiles/rnn-backprop-through-time}
 \end{frame}
 
 \begin{frame}{Back Propagation Through Time}
-At the end the gradients on $\vect{V}$, $\vect{W}$ and $\vect{U}$ are:
+The gradients on $\vect{V}$, $\vect{W}$ and $\vect{U}$ are:
 \vspace{0.3cm}
 \Large{
 \begin{equation*}
-\grad{\vect{V}}{L^{(\tau)}} = \outerp{\grad{\vect{o}^{(\tau)}}{\vect{L}^{(\tau)}}}{\vect{h}^{(\tau)}} 
+\grad{\vect{V}}{L^{(\tau)}} = \outerp{\grad{\vect{o}^{(\tau)}}{L^{(\tau)}}}{\vect{h}^{(\tau)}} 
 \end{equation*}
 
 
 \begin{equation*}
-\grad{\vect{W}}{L^{(\tau)}} = \sum_{t=1}^{\tau}\grad{\vect{W}^{(t)}}{\vect{L}^{(\tau)}}
+\grad{\vect{W}}{L^{(\tau)}} = \sum_{t=1}^{\tau}\grad{\vect{W}^{(t)}}{L^{(\tau)}}
 \end{equation*}
 
 \begin{equation*}
-\grad{\vect{U}}{L^{(\tau)}} = \sum_{t=1}^{\tau}\grad{\vect{U}^{(t)}}{\vect{L}^{(\tau)}}
+\grad{\vect{U}}{L^{(\tau)}} = \sum_{t=1}^{\tau}\grad{\vect{U}^{(t)}}{L^{(\tau)}}
 \end{equation*}
 }
 \end{frame}
 
-\section{Vanishing Gradient}
+\section{Vanishing or Exploding Gradient}
+\input{equations}
 
-\begin{frame}{tensorflow}
-anklasklasn
+\begin{frame}{Vanishing or exploding}
+
+Gradient for further time steps will have more matrix products using $\vect{W}$.
+
+\vspace{0.3cm}
+
+\begin{itemize}
+\item If we initialize $\vect{W}$ such that $||\vect{W}|| < 1$, the gradient for further time steps will be very small (\alert{vanishing problem}). 
+\vspace{0.5cm}
+\item If $||\vect{W}|| > 1$, the gradient for further time steps will be larger and larger (\alert{exploding problem}).
+\end{itemize}
 \end{frame}
+
+
+\begin{frame}{The vanishing problem}
+
+The gradients from the steps closed to $\tau$ (the last step) have more influence than the ones very far back.\\
+
+This is bad for capturing \alert{long-term dependecies}.
+\end{frame}
+
+\begin{frame}{Possible solutions (hacks)}
+\begin{itemize}
+\item Clip gradients to a maximum value.
+\vspace{0.4cm}
+\item Choosing the right activation functions, e.g. ReLU.
+\vspace{0.4cm}
+\item Initialize weights to the identity matrix.
+\vspace{0.4cm}
+\item LSTM (Long Short-Term Memory), GRU (Gated Recurrent Unit), etc
+\end{itemize}
+\end{frame}
+
 
 \section{Implementation}
 
-\begin{frame}{tensorflow}
-anklasklasn
+\begin{frame}{Truncated Back Propagation}
+\url{www.tensorflow.org/versions/master/tutorials/recurrent}
+\begin{quote}
+"By design, the output of a recurrent neural network (RNN) depends on arbitrarily distant inputs. Unfortunately, this makes backpropagation computation difficult. In order to make the learning process tractable, \alert{it is common practice to create an 'unrolled' version of the network, which contains a fixed number (num\_steps) of LSTM inputs and outputs}."
+\end{quote}
 \end{frame}
+
+\begin{frame}[fragile]{Tensorflow implementation}
+\begin{minted}[linenos]{python}
+self.rnn_outputs = []
+
+initialshape = (self.batch_size, self.hidden_size)
+Wshape = (self.hidden_size, self.hidden_size)
+Ushape = (self.embed_size, self.hidden_size)
+Vshape = (self.config.hidden_size, self.vocab_size)
+
+with tf.variable_scope("memory"):
+    self.initial_state = tf.zeros(initialshape)
+
+with tf.variable_scope("hidden"):
+    self.W = tf.get_variable("W", shape=Wshape)
+    self.input_weights = init_wb(Ushape, "input_weights")
+\end{minted}
+\end{frame}
+
+\begin{frame}[fragile]{Tensorflow implementation}
+\begin{minted}[linenos]{python}
+previous_h = self.initial_state
+for i, tensor in enumerate(self.inputs):
+          # len(self.inputs) = num_steps
+    with tf.variable_scope("RNN", reuse=True):
+        drop_tensor = tf.nn.dropout(tensor,
+                                    self.dropout_placeholder)
+        h = (tf.matmul(previous_h, self.W) +
+             affine_transformation(drop_tensor,
+                                   self.input_weights))
+        h = tf.nn.dropout(tf.sigmoid(h),
+                          self.dropout_placeholder)
+        self.rnn_outputs.append(h)
+        previous_h = h
+        if i == (len(self.inputs) - 1):
+            self.final_state = h
+\end{minted}
+\end{frame}
+
+\begin{frame}[fragile]{Tensorflow implementation}
+\begin{minted}[linenos]{python}
+with tf.variable_scope("Projection_layer"):
+    self.output_weights = init_wb(Vshape, "output_weights")
+    self.logits = [affine_transformation(tensor,
+                                         self.output_weights)
+                   for tensor in self.rnn_outputs]
+\end{minted}
+\end{frame}
+
+\begin{frame}{MytwitterBot: TrumpBot}
+\url{https://github.com/felipessalvatore/MyTwitterBot}
+\begin{center}
+\includegraphics[scale=0.24]{images/TrumpBot.png}
+\end{center}
+\end{frame}
+
+\begin{frame}{MytwitterBot: SakaBot}
+\url{https://github.com/felipessalvatore/MyTwitterBot}
+\begin{center}
+\includegraphics[scale=0.24]{images/SakaBot.png}
+\end{center}
+\end{frame}
+
+
 
 \section{Conclusion}
 
@@ -754,8 +886,8 @@ After some experiments with the hyper parameters my best result on the \alert{Pe
 \begin{center}
 \begin{tabular}{|c|c|c|}
 \hline
-\cellcolor{blue!10}Model & \cellcolor{blue!10}Val & \cellcolor{blue!10}Test  \\ \hline
-Mikolov et al (2010) & $163.2$  & $149.9$ \\ \hline
+\cellcolor{blue!20}Model & \cellcolor{blue!20}Val & \cellcolor{blue!20}Test  \\ \hline
+Mikolov et al (2010)\cite{Mikolov11} & $163.2$  & $149.9$ \\ \hline
 \end{tabular}
 \end{center}
 \end{figure}
@@ -777,11 +909,6 @@ Mikolov et al (2010) & $163.2$  & $149.9$ \\ \hline
 \includegraphics[scale=0.34]{images/SocherPTB.png}
 \end{center}
 
-\end{frame}
-
-
-\begin{frame}{References}
-  Some references to showcase [allowframebreaks] \cite{Mikolov11,DeepLearningbook}
 \end{frame}
 
 
