@@ -211,11 +211,11 @@ Both inputs have a time step index $t$. The hidden unit has a recurrent definiti
 \Large{
  \vspace{0.2cm}
 \begin{equation*}
-f(\vect{x}^{(t)}, \vect{h}^{(t)}; \vect{V}, \vect{W}, \vect{U}, \vect{c}, \vect{b}) = \vect{\hat{y}}
+f(\vect{x}^{(t)}, \vect{h}^{(t-1)}; \vect{V}, \vect{W}, \vect{U}, \vect{c}, \vect{b}) = \vect{\hat{y}}^{(t)}
 \end{equation*}
  \vspace{0.2cm}
 \begin{equation*}
-\vect{\hat{y}} = softmax(\vect{V} \vect{h}^{(t)} + \vect{c})
+\vect{\hat{y}}^{(t)} = softmax(\vect{V} \vect{h}^{(t)} + \vect{c})
 \end{equation*}
 \vspace{0.2cm}
  \begin{equation*}
@@ -410,9 +410,9 @@ The dataset is a collection of pairs $(\vect{x},\vect{y})$ where $\vect{x}$ is o
 \begin{itemize}
 \item $\vect{E} \in \mathbb{R}^{d,|\Vocab|}$ is the matrix of word embeddings.
 \vspace{0.3cm}
-\item $\vect{x}^{(t)} \in \mathbb{R}^{|\Vocab|}$ is one-hot word vector at time $t$.
+\item $\vect{x}^{(t)} \in \mathbb{R}^{|\Vocab|}$ is one-hot word vector at time step $t$.
 \vspace{0.3cm}
-\item $\vect{y}^{(t)} \in \mathbb{R}^{|\Vocab|}$ is the ground true at time $t$ (also an one-hot word vector).
+\item $\vect{y}^{(t)} \in \mathbb{R}^{|\Vocab|}$ is the ground truth at time step $t$ (also an one-hot word vector).
 \end{itemize}
 \end{frame}
 
@@ -499,7 +499,7 @@ The loss $L$ is the mean of all the point-wise losses
 L=\frac{1}{T}\sum_{t=1}^{T}L^{(t)}
 \end{equation*}
 
-To give a concrete example, let's take the first sentence of the poem as $C$:\\
+To give a concrete example, let's take the first sentence of the poem as $C$:
 \begin{quote}
 \alert{Am I to become profligate as if I were a blonde?}
 \end{quote}
@@ -515,7 +515,8 @@ To give a concrete example, let's take the first sentence of the poem as $C$:\\
 \begin{frame}{Loss function: example}
 
 \begin{align*}
-        L &=-\frac{1}{12}(\log P(\text{I} | \text{Am})\\
+        L &=-\frac{1}{12}[\log P(\text{Am} | <\text{eos}>)\\
+          &+ \log P(\text{I} | \text{Am})\\
           &+ \log P(\text{to}| \text{Am}, \text{I})\\
           &+ \log P(\text{become}| \text{Am}, \text{I}, \text{to})\\
 		  &+ \log P(\text{profligate}| \text{Am}, \text{I}, \text{to}, \text{become})\\
@@ -524,9 +525,8 @@ To give a concrete example, let's take the first sentence of the poem as $C$:\\
           &+ \log P(\text{I}| \text{Am}, \text{I}, \text{to}, \text{become}, \text{profligate}, \text{as}, \text{if})\\
           &+ \log P(\text{were}| \text{Am}, \text{I}, \text{to}, \text{become}, \text{profligate}, \text{as}, \text{if}, \text{I})\\
           &+ \log P(\text{a}| \text{Am}, \text{I}, \text{to}, \text{become}, \text{profligate}, \text{as}, \text{if}, \text{I}, \text{were})\\
-          &+ \log P(\text{a}| \text{Am}, \text{I}, \text{to}, \text{become}, \text{profligate}, \text{as}, \text{if}, \text{I}, \text{were})\\
           &+ \log P(\text{blonde}| \text{Am}, \text{I}, \text{to}, \text{become}, \text{profligate}, \text{as}, \text{if}, \text{I}, \text{were}, \text{a})\\
-          &+ \log P(<\text{eos}>| \text{Am}, \text{I}, \text{to}, \text{become}, \text{profligate}, \text{as}, \text{if}, \text{I}, \text{were}, \text{a}, \text{blonde}))
+          &+ \log P(<\text{eos}>| \text{Am}, \text{I}, \text{to}, \text{become}, \text{profligate}, \text{as}, \text{if}, \text{I}, \text{were}, \text{a}, \text{blonde})]
 \end{align*}
 
 \end{frame}
@@ -887,7 +887,7 @@ After some experiments with the hyper parameters my best result on the \alert{Pe
 \begin{tabular}{|c|c|c|}
 \hline
 \cellcolor{blue!20}Model & \cellcolor{blue!20}Val & \cellcolor{blue!20}Test  \\ \hline
-Mikolov et al (2010)\cite{Mikolov11} & $163.2$  & $149.9$ \\ \hline
+Mikolov et al (2011)\cite{Mikolov11} & $163.2$  & $149.9$ \\ \hline
 \end{tabular}
 \end{center}
 \end{figure}
