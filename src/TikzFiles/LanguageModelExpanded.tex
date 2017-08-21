@@ -35,7 +35,7 @@
 
 % edges
 
-\path[tedge] (a) edge node[below right= -7pt] {$\;\; \Large{\sigma}$}  (hprime);
+\path[tedge] (a) edge node[below right= -7pt] {$\;\; \LARGE{\sigma}$}  (hprime);
 \path[tedge] (b) -- (a);
 \path[tedge] (noop-left) -- (a);
 \path[tedge] (noop-right) -- (a);
@@ -82,6 +82,15 @@
 \tkzDrawCircle[draw=orange, line width=1.5pt, fill=orange!60](O,p7)
 \end{scope}
 
+%% Info
+\node[textonly, below right=20pt and 1pt of E] (inv1) {};
+\node[textonly, above right=20pt and 1pt of E] (inv2) {};
+\node[textonly, right=70pt of E] (embedding) {Embedding layer};
+
+
+% % info edges
+\draw[orange!120, line width=1mm]  (embedding) to [out=-180,in=0] (inv1);
+\draw[orange!120, line width=1mm] (embedding) to [out=-180,in=0] (inv2);
 
 \end{tikzpicture}
 } % scalebox
