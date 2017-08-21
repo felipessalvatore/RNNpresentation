@@ -93,21 +93,33 @@ softmax(x) = \frac{e^{x}}{\sum e^{x}}
 import tensorflow as tf
 import numpy as np
 
-W1init = np.zeros([4, 10], dtype="float32")
-W2init = np.zeros([2, 4], dtype="float32")
+input_shape = [10,1]
+input_to_hidden_shape = [4,10]
+hidden_to_output_shape = [2,4]
 
-graph = tf.Graph() 
-with graph.as_default():
-    x = tf.placeholder(shape=[10, 1], dtype="float32",
-                       name="x") 
-    W1 = tf.get_variable(initializer=W1init, name="W1")
-    v = tf.matmul(W1, x, name="v")
-    h = tf.sigmoid(v, name="h")
-    W2 = tf.get_variable(initializer=W2init, name="W2")
-    z = tf.matmul(W2, h, name="z")
-    y = tf.nn.softmax(z, name="y")
+W1init = np.zeros(input_to_hidden_shape,
+				  dtype="float32")
+W2init = np.zeros(hidden_to_output_shape,
+				  dtype="float32")
 \end{minted}
 \end{frame}
+
+
+\begin{frame}[fragile]{Tensorflow graph}
+\begin{minted}[linenos]{python}
+graph = tf.Graph() 
+with graph.as_default():
+    x = tf.placeholder(shape=input_shape,
+                       dtype="float32") 
+    W1 = tf.get_variable(initializer=W1init)
+    v = tf.matmul(W1, x)
+    h = tf.sigmoid(v)
+    W2 = tf.get_variable(initializer=W2init)
+    z = tf.matmul(W2, h)
+    yhat = tf.nn.softmax(z)
+\end{minted}
+\end{frame}
+
 
 \begin{frame}[fragile]{Tensorboard visualization}
 \begin{center}
@@ -131,19 +143,18 @@ with graph.as_default():
 graph = tf.Graph() 
 with graph.as_default():
     with tf.variable_scope("x"):
-        x_prime = tf.placeholder(shape=[10, 1],
-                                 dtype="float32",
-                                 name="x_prime") 
+        x_prime = tf.placeholder(shape=input_shape,
+                                 dtype="float32") 
 
     with tf.variable_scope("h"):
-        W1 = tf.get_variable(initializer=W1init, name="W1")
-        v = tf.matmul(W1, x_prime, name="v")
-        h_prime = tf.sigmoid(v, name="h_prime")
+        W1 = tf.get_variable(initializer=W1init)
+        v = tf.matmul(W1, x_prime)
+        h_prime = tf.sigmoid(v)
 
-    with tf.variable_scope("y"):
-        W2 = tf.get_variable(initializer=W2init, name="W2")
-        z = tf.matmul(W2, h_prime, name="z")
-        y_prime = tf.nn.softmax(z, name="y_prime")
+    with tf.variable_scope("yhat"):
+        W2 = tf.get_variable(initializer=W2init)
+        z = tf.matmul(W2, h_prime)
+        y_prime = tf.nn.softmax(z)
 \end{minted}
 \end{frame}
 
@@ -754,17 +765,51 @@ The gradients on $\vect{V}$, $\vect{W}$ and $\vect{U}$ are:
 \section{Vanishing or Exploding Gradient}
 \input{equations}
 
-\begin{frame}{Vanishing or exploding}
+\begin{frame}{Taking a closer look}
+With some notation we can simplify these gradients as follows:
+\begin{eqnarray*}
+\grad{\vect{U}^{(3)}}{L^{(3)}} = \vect{c}{\vect{x}^{(3)}}^{T}
+\end{eqnarray*}
 
-Gradient for further time steps will have more matrix products using $\vect{W}$.
+\begin{eqnarray*}
+\grad{\vect{U}^{(2)}}{L^{(3)}} = \outerp{diag(\vect{b}^{(2)}) \vect{W}^{T} \vect{c}}{\vect{x}^{(2)}}
+\end{eqnarray*}
 
-\vspace{0.3cm}
+\begin{eqnarray*}
+\grad{\vect{U}^{(1)}}{L^{(3)}} = \outerp{\left(diag(\vect{b}^{(1)}) \vect{W}^{T} \right) \left(diag(\vect{b}^{(2)}) \vect{W}^{T}\right) \vect{c}}{\vect{x}^{(1)}}
+\end{eqnarray*}
+\end{frame}
 
-\begin{itemize}
-\item If we initialize $\vect{W}$ such that $||\vect{W}|| < 1$, the gradient for further time steps will be very small (\alert{vanishing problem}). 
+\begin{frame}{Taking a closer look}
+
+\begin{eqnarray*}
+\grad{\vect{U}^{(1)}}{L^{(\tau)}} = \outerp{\left(diag(\vect{b}^{(1)}) \vect{W}^{T} \right) \left(diag(\vect{b}^{(2)}) \vect{W}^{T}\right) \dots \left(diag(\vect{b}^{(\tau-1)}) \vect{W}^{T}\right)\vect{c}}{\vect{x}^{(1)}}
+\end{eqnarray*}
+
 \vspace{0.5cm}
-\item If $||\vect{W}|| > 1$, the gradient for further time steps will be larger and larger (\alert{exploding problem}).
-\end{itemize}
+
+\textbf{Gradient for further time steps will have more matrix products using $diag(\vect{b}) \vect{W}^{T}$.
+}\end{frame}
+
+\begin{frame}{Vanishing}
+
+If we initialize $\vect{W}$ such that $||\vect{W}|| < 1$, the gradient for further time steps will be very small (\alert{vanishing problem}).
+
+\vspace{0.5cm}
+(\alert{vanishing animation!!!!!!!!!!!!!!!!!!!!!!!!!!})
+
+
+\end{frame}
+
+
+
+\begin{frame}{Exploding}
+
+If $||\vect{W}|| > 1$, the gradient for further time steps will be larger and larger (\alert{exploding problem}).
+
+\vspace{0.5cm}
+(\alert{exploding animation!!!!!!!!!!!!!!!!!!!!!!!!!!})
+
 \end{frame}
 
 
