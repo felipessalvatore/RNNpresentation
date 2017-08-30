@@ -42,8 +42,8 @@
 \node[op, minimum size=40pt, #3] (o#2) {$\textbf{o}^{#1}$};
 \node[op, minimum size=40pt, above=15pt of o#2] (yhat#2) {$\hat{\textbf{y}}^{#1}$};
 \node[op, below left=1pt and 10pt of o#2] (V#2) {$\textbf{V}$};
-\node[op, minimum size=40pt, right=50pt of yhat#2] (L#2) {$\textbf{L}^{#1}$};
-\node[op, minimum size=40pt, right=20pt of L#2] (y#2) {$\textbf{y}^{#1}$};
+\node[op, minimum size=40pt, left=50pt of yhat#2] (L#2) {$\textbf{L}^{#1}$};
+\node[op, minimum size=40pt, left=20pt of L#2] (y#2) {$\textbf{y}^{#1}$};
 
 % paths
 \path[tedge] (o#2) -- (yhat#2);
@@ -64,7 +64,7 @@
 
 \begin{figure}[ht!]
 \hspace*{-1.0cm}
-\scalebox{0.37}{
+\scalebox{0.425}{
 \begin{tikzpicture}[auto]
 
 % timestep 1 cell

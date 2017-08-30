@@ -49,24 +49,18 @@
 \input{TikzFiles/perceptron}
 \end{frame}
 
+\begin{frame}[fragile]{Recap: sigmoid function}
+\input{TikzFiles/Sigmoid}
+\end{frame}
+
+
+\begin{frame}[fragile]{Recap: softmax function}
+\input{TikzFiles/Softmax}
+\end{frame}
+
 \begin{frame}[fragile]{NN as a directed graph: old version}
 \input{TikzFiles/OldNN1}
 \end{frame}
-
-\begin{frame}{Recap: basic functions}
-\Large{
- \vspace{0.2cm}
-\begin{equation*}
-\sigma(x) = \frac{1}{1 + e^{-x}}
-\end{equation*}
-\vspace{0.5cm}
- \begin{equation*}
-softmax(x) = \frac{e^{x}}{\sum e^{x}}
-\end{equation*}
-}
-\end{frame}
-
-
 
 \begin{frame}[fragile]{NN as a directed graph: old version}
 \input{TikzFiles/OldNN2}
@@ -348,7 +342,7 @@ PP(C) &= P(x_1, x_2, \dots, x_T)^{-\frac{1}{T}}\\
 \item Higher $n$-grams requires a lot of memory!
 \vspace{0.1cm}
 \begin{quote}
-"Using one machine \alert{with 140 GB
+"Using one machine \textbf{with 140 GB
 RAM for 2.8 days}, we built an unpruned
 model on 126 billion tokens."
 \end{quote}
@@ -588,7 +582,7 @@ So another definition of perplexity is
 }
 \end{frame}
 
-\begin{frame}{Chain rule = graph}
+\begin{frame}{Chain rule: graph}
 \input{TikzFiles/BackPropScalar}
 \end{frame}
 
@@ -672,7 +666,7 @@ So another definition of perplexity is
 \end{frame}
 
 
-\begin{frame}{Chain rule = graph}
+\begin{frame}{Chain rule: graph}
 \input{TikzFiles/BackPropVector}
 \end{frame}
 
@@ -782,9 +776,16 @@ With some notation we can simplify these gradients as follows:
 
 \begin{frame}{Taking a closer look}
 
-\begin{eqnarray*}
-\grad{\vect{U}^{(1)}}{L^{(\tau)}} = \outerp{\left(diag(\vect{b}^{(1)}) \vect{W}^{T} \right) \left(diag(\vect{b}^{(2)}) \vect{W}^{T}\right) \dots \left(diag(\vect{b}^{(\tau-1)}) \vect{W}^{T}\right)\vect{c}}{\vect{x}^{(1)}}
-\end{eqnarray*}
+
+\[
+\grad{\vect{U}^{(1)}}{L^{(\tau)}}
+\]
+\[
+=
+\]
+\[
+\outerp{\left(diag(\vect{b}^{(1)}) \vect{W}^{T} \right) \left(diag(\vect{b}^{(2)}) \vect{W}^{T}\right) \dots \left(diag(\vect{b}^{(\tau-1)}) \vect{W}^{T}\right)\vect{c}}{\vect{x}^{(1)}}
+\]
 
 \vspace{0.5cm}
 
@@ -795,8 +796,8 @@ With some notation we can simplify these gradients as follows:
 
 If we initialize $\vect{W}$ such that $||\vect{W}|| < 1$, the gradient for further time steps will be very small (\alert{vanishing problem}).
 
-\vspace{0.5cm}
-(\alert{vanishing animation!!!!!!!!!!!!!!!!!!!!!!!!!!})
+\vspace{0.8cm}
+ \url{https://www.youtube.com/watch?v=xAl8fu8myW0}
 
 
 \end{frame}
@@ -807,8 +808,9 @@ If we initialize $\vect{W}$ such that $||\vect{W}|| < 1$, the gradient for furth
 
 If $||\vect{W}|| > 1$, the gradient for further time steps will be larger and larger (\alert{exploding problem}).
 
-\vspace{0.5cm}
-(\alert{exploding animation!!!!!!!!!!!!!!!!!!!!!!!!!!})
+\vspace{0.8cm}
+ \url{https://www.youtube.com/watch?v=dqW-jw5qKK8}
+
 
 \end{frame}
 
@@ -917,7 +919,7 @@ After some experiments with the hyper parameters my best result on the \alert{Pe
 \begin{center}
 \begin{tabular}{|c|c|c|}
 \hline
-\cellcolor{blue!20}Model & \cellcolor{blue!20}Val & \cellcolor{blue!20}Test  \\ \hline
+\cellcolor{blue!60}Model & \cellcolor{blue!60}Val & \cellcolor{blue!60}Test  \\ \hline
 Mikolov et al (2011)\cite{Mikolov11} & $163.2$  & $149.9$ \\ \hline
 \end{tabular}
 \end{center}
@@ -930,6 +932,7 @@ Mikolov et al (2011)\cite{Mikolov11} & $163.2$  & $149.9$ \\ \hline
 \begin{center}
 \includegraphics[scale=0.45]{images/JeffDeanLectureforYCAI.pdf}
 \end{center}
+\nocite{DeepLearningbook}
 
 \end{frame}
 
