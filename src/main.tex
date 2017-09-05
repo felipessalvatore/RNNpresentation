@@ -195,7 +195,7 @@ Both inputs have a time step index $t$. The hidden unit has a recurrent definiti
 }
 \end{frame}
 
-%"When the recurrent network is trained to perform a task that requeires predicting the future form the past, the network typically learn to use $h^{(t)}$ as a kind of lossy sumary of the task-relevant aspects of the past sequence inputs up to t"(DPB p.366)
+%"When the recurrent network is trained to perform a task that requires predicting the future form the past, the network typically learn to use $h^{(t)}$ as a kind of lossy summary of the task-relevant aspects of the past sequence inputs up to t"(DPB p.366)
 
 \begin{frame}{Using our example as a concrete case}
 
@@ -456,12 +456,30 @@ The dataset is a collection of pairs $(\vect{x},\vect{y})$ where $\vect{x}$ is o
 \input{TikzFiles/LanguageModelUnfolded}
 \end{frame}
 
-\begin{frame}{Recap: cross entropy}
+\begin{frame}{Recap: Entropy}
+\input{TikzFiles/Entropy1}
+\end{frame}
+
+\begin{frame}{Recap: Entropy}
+\input{TikzFiles/Entropy2}
+\end{frame}
+
+\begin{frame}{Recap: Kullback-Leibler divergence}
+\input{TikzFiles/KullbackLeibler}
+\end{frame}
+
+\begin{frame}{Recap: Cross entropy}
 \Large{
-\begin{equation*}
-CE(\vect{y},\vect{\hat{y}}) = -\sum_{i}\vect{y}_{i}\log(\vect{\hat{y}}_{i})  
-\end{equation*}
+\begin{align*}
+CE(\vect{p},\vect{q}) &= H(\vect{p}) + D_{KL}(\vect{p}||\vect{q})\\
+\vspace{0.2cm}
+&= -\sum_{i}\vect{p}_{i}\log(\vect{q}_{i})
+\end{align*}
 }
+\vspace{0.2cm}
+\begin{equation*}
+\argmin_{\theta} CE(\vect{p},\vect{q}_{\theta}) =  \argmin_{\theta} D_{KL}(\vect{p},\vect{q}_{\theta})
+\end{equation*}
 \end{frame}
 
 \begin{frame}{Loss function}
