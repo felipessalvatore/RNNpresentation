@@ -1,7 +1,9 @@
 # RNNpresentation: A presentation about Recurrent Neural Network.
 
-[![License](gifs/cc-log.png)](https://github.com/felipessalvatore/RNNpresentation/blob/master/LICENSE)
+![alt text](gifs/cc-log.png "CC")
 
+
+Licensed under [creative commons](https://github.com/felipessalvatore/RNNpresentation/blob/master/LICENSE)
 
 I create [these slides](https://www.overleaf.com/read/vwnmhxghqjtk) together with [@thiagopbueno](http://thiagopbueno.github.io/) for a seminar at USP to explain recurrent neural networks.
 
