@@ -1,6 +1,6 @@
 # RNNpresentation: A presentation about Recurrent Neural Network.
 
-![alt text](gifs/cc-log.png "CC")
+![alt text](gifs/cc-logo.png "CC")
 
 
 Licensed under [creative commons](https://github.com/felipessalvatore/RNNpresentation/blob/master/LICENSE)
