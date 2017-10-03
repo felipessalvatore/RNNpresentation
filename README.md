@@ -5,7 +5,7 @@
 
 Licensed under [creative commons](https://github.com/felipessalvatore/RNNpresentation/blob/master/LICENSE)
 
-I create [these slides](https://www.overleaf.com/read/vwnmhxghqjtk) together with [@thiagopbueno](http://thiagopbueno.github.io/) for a seminar at USP to explain recurrent neural networks.
+I create [these slides](https://mlime.github.io/files/introduction-recurrent-neural.pdf) together with [@thiagopbueno](http://thiagopbueno.github.io/) for a seminar at USP to explain recurrent neural networks.
 
 
 ## Back Propagation Animations
@@ -24,3 +24,15 @@ I create [these slides](https://www.overleaf.com/read/vwnmhxghqjtk) together wit
     <td>Vanishing gradient</td>
   </tr>
 </table>
+
+
+## Usage
+
+If you want to compile the latex file just run:
+
+```
+$ cd src/
+$ make
+```
+
+
