@@ -8,7 +8,7 @@ Licensed under [creative commons](https://github.com/felipessalvatore/RNNpresent
 I create [these slides](https://mlime.github.io/files/introduction-recurrent-neural.pdf) together with [@thiagopbueno](http://thiagopbueno.github.io/) for a seminar at USP to explain recurrent neural networks.
 
 
-## Back Propagation Visualization
+## Back Propagation Visualizations
 
 <table style="width:100%">
   <tr>
@@ -28,7 +28,7 @@ I create [these slides](https://mlime.github.io/files/introduction-recurrent-neu
 
 ## Usage
 
-You can find the pdf of the presentation in the folder src/pdf. But if you want to compile the latex file just run:
+You can find the pdf of the presentation in the folder /src/pdf. But if you want to compile the latex file just run:
 
 ```
 $ cd src/
