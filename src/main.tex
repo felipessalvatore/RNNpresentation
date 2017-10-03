@@ -15,6 +15,8 @@
 \input{header}
 
 \begin{document}
+\nocite{DeepLearningbook}
+
 
 \maketitle
 
@@ -92,9 +94,9 @@ input_to_hidden_shape = [4,10]
 hidden_to_output_shape = [2,4]
 
 W1init = np.zeros(input_to_hidden_shape,
-				  dtype="float32")
+          dtype="float32")
 W2init = np.zeros(hidden_to_output_shape,
-				  dtype="float32")
+          dtype="float32")
 \end{minted}
 \end{frame}
 
@@ -195,7 +197,6 @@ Both inputs have a time step index $t$. The hidden unit has a recurrent definiti
 }
 \end{frame}
 
-%"When the recurrent network is trained to perform a task that requires predicting the future form the past, the network typically learn to use $h^{(t)}$ as a kind of lossy summary of the task-relevant aspects of the past sequence inputs up to t"(DPB p.366)
 
 \begin{frame}{Using our example as a concrete case}
 
@@ -272,7 +273,7 @@ To make things simple we use a \textbf{Markovian assumption}, i.e., for a specif
 
 \begin{equation*}
 P(x_1, \dots, x_T) = \prod_{t=1}^{T} P(x_t \vert x_1, \dots, x_{t-1}) = \prod_{t=1}^{T} P(x_{t} \vert x_{t - (n+1)}, \dots, x_{t-1})
-\end{equation*}	
+\end{equation*} 
 
 \end{frame}
 
@@ -289,7 +290,7 @@ where $P(x_i) = count(x_i)$.\\
 \textbf{Bigram} language model ($n=2$): 
 \begin{equation*}
 P_{bi}(x_1,x_2,x_3,x_4) = P(x_1)P(x_2\vert x_1)P(x_3\vert x_2)P(x_4\vert x_3)
-\end{equation*}	
+\end{equation*} 
 where
 \[
 P(x_i\vert x_j) = \frac{count(x_i, x_j)}{count(x_j)}
@@ -328,7 +329,7 @@ Given $C= x_1, x_2, \dots, x_T$, we define the perplexity of $C$ as:
 
 \begin{align*}
 PP(C) &= P(x_1, x_2, \dots, x_T)^{-\frac{1}{T}}\\
-	  & \\
+    & \\
       &= \sqrt[T]{\frac{1}{P(x_1, x_2, \dots, x_T)}}\\
       & \\
       &= \sqrt[T]{\prod_{i=1}^{T}\frac{1}{P(x_i \vert x_1,\dots, x_{i-1})}}
@@ -369,16 +370,19 @@ for any $(n-1)$-sequence of words $x_{1}, \dots ,x_{n-1}$.
 \begin{frame}{Building the dataset}
 We start with a corpus $C$ with $T$ tokens and a vocabulary $\Vocab$.\\\
 
-Example: \textbf{Meditations in an Emergency} by Frank O'Hara.\\
+Example: \textbf{Make Some Noise} by the Beastie Boys.\\
 
 \begin{quote}
-\alert{Am I to become profligate as if I were a blonde? Or religious as if I were French?\\
-Each time my heart is broken it makes me feel more adventurous ... \\}
+\alert{Yes, here we go again, give you more, nothing lesser\\
+Back on the mic is the anti-depressor\\
+Ad-Rock, the pressure, yes, we need this\\
+The best is yet to come, and yes, believe this\\
+... \\}
 \end{quote}
 
 \begin{itemize}
-\item $T = 645$
-\item $|\Vocab| = 347$
+\item $T = 378$
+\item $|\Vocab| = 186$
 \end{itemize}
 
 \end{frame}
@@ -386,13 +390,13 @@ Each time my heart is broken it makes me feel more adventurous ... \\}
 \begin{frame}{Building the dataset}
 The dataset is a collection of pairs $(\vect{x},\vect{y})$ where $\vect{x}$ is one word and $\vect{y}$ is the immediately next word. For example:
 \begin{itemize}
-\item [] $(\vect{x}^{(1)}, \vect{y}^{(1)}) =$ (Am, I).
-\item [] $(\vect{x}^{(2)}, \vect{y}^{(2)}) =$ (I, to)
-\item [] $(\vect{x}^{(3)}, \vect{y}^{(3)}) =$ (to, become)
-\item [] $(\vect{x}^{(3)}, \vect{y}^{(3)}) =$ (become, profligate)
-\item [] $(\vect{x}^{(4)}, \vect{y}^{(4)}) =$ (profligate, as)
-\item [] $(\vect{x}^{(5)}, \vect{y}^{(5)}) =$ (as, if)
-\item [] $(\vect{x}^{(6)}, \vect{y}^{(6)}) =$ (if, I)
+\item [] $(\vect{x}^{(1)}, \vect{y}^{(1)}) =$ (Yes, here).
+\item [] $(\vect{x}^{(2)}, \vect{y}^{(2)}) =$ (here, we)
+\item [] $(\vect{x}^{(3)}, \vect{y}^{(3)}) =$ (we, go)
+\item [] $(\vect{x}^{(4)}, \vect{y}^{(4)}) =$ (go, again)
+\item [] $(\vect{x}^{(5)}, \vect{y}^{(5)}) =$ (again, give)
+\item [] $(\vect{x}^{(6)}, \vect{y}^{(6)}) =$ (give, you)
+\item [] $(\vect{x}^{(7)}, \vect{y}^{(7)}) =$ (you, more)
 \item [] $\dots$
 \end{itemize}
 \end{frame}
@@ -418,7 +422,7 @@ The dataset is a collection of pairs $(\vect{x},\vect{y})$ where $\vect{x}$ is o
                          \vdots \\
                          0
                          \end{bmatrix}\\         
-			&= \vect{E}_{:,\;j}
+      &= \vect{E}_{:,\;j}
 \end{align*}
  }
 \end{frame}
@@ -482,6 +486,7 @@ CE(\vect{p},\vect{q}) &= H(\vect{p}) + D_{KL}(\vect{p}||\vect{q})\\
 \end{equation*}
 \end{frame}
 
+
 \begin{frame}{Loss function}
 At each time $t$ the point-wise loss is:
 
@@ -489,7 +494,7 @@ At each time $t$ the point-wise loss is:
 
 \begin{align*}
 L^{(t)} &= CE(\vect{y}^{(t)},\vect{\hat{y}}^{(t)})\\
-		&= - \log(\vect{\hat{y}}_{j^{*}})\\
+    &= - \log(\vect{\hat{y}}_{j^{*}})\\
         &= - \log P(x^{(t+1)} = \text{word}_{j^{*}}|x^{(1)}, \dots, x^{(t)})
 \end{align*}
 
@@ -497,7 +502,7 @@ L^{(t)} &= CE(\vect{y}^{(t)},\vect{\hat{y}}^{(t)})\\
 
 For example:
 \begin{equation*}
-L^{(3)}=- \log P(x^{(4)} = \text{become}| \text{Am}, \text{I}, \text{to})
+L^{(3)}=- \log P(x^{(4)} = \text{go}| \text{Yes}, \text{here}, \text{we})
 \end{equation*}
 \end{frame}
 
@@ -508,14 +513,14 @@ The loss $L$ is the mean of all the point-wise losses
 L=\frac{1}{T}\sum_{t=1}^{T}L^{(t)}
 \end{equation*}
 
-To give a concrete example, let's take the first sentence of the poem as $C$:
+To give a concrete example, let's take the first sentence of the lyric as $C$:
 \begin{quote}
-\alert{Am I to become profligate as if I were a blonde?}
+\alert{Yes, here we go again, give you more, nothing lesser}
 \end{quote}
 
 \begin{itemize}
-\item $T = 12$
-\item $|\Vocab| = 11$
+\item $T = 10$
+\item $|\Vocab| = 10$
 \end{itemize}
 
 \end{frame}
@@ -524,18 +529,16 @@ To give a concrete example, let's take the first sentence of the poem as $C$:
 \begin{frame}{Loss function: example}
 
 \begin{align*}
-        L &=-\frac{1}{12}[\log P(\text{Am} | <\text{eos}>)\\
-          &+ \log P(\text{I} | \text{Am})\\
-          &+ \log P(\text{to}| \text{Am}, \text{I})\\
-          &+ \log P(\text{become}| \text{Am}, \text{I}, \text{to})\\
-		  &+ \log P(\text{profligate}| \text{Am}, \text{I}, \text{to}, \text{become})\\
-          &+ \log P(\text{as}| \text{Am}, \text{I}, \text{to}, \text{become}, \text{profligate})\\
-          &+ \log P(\text{if}| \text{Am}, \text{I}, \text{to}, \text{become}, \text{profligate}, \text{as})\\
-          &+ \log P(\text{I}| \text{Am}, \text{I}, \text{to}, \text{become}, \text{profligate}, \text{as}, \text{if})\\
-          &+ \log P(\text{were}| \text{Am}, \text{I}, \text{to}, \text{become}, \text{profligate}, \text{as}, \text{if}, \text{I})\\
-          &+ \log P(\text{a}| \text{Am}, \text{I}, \text{to}, \text{become}, \text{profligate}, \text{as}, \text{if}, \text{I}, \text{were})\\
-          &+ \log P(\text{blonde}| \text{Am}, \text{I}, \text{to}, \text{become}, \text{profligate}, \text{as}, \text{if}, \text{I}, \text{were}, \text{a})\\
-          &+ \log P(<\text{eos}>| \text{Am}, \text{I}, \text{to}, \text{become}, \text{profligate}, \text{as}, \text{if}, \text{I}, \text{were}, \text{a}, \text{blonde})]
+        L &=-\frac{1}{10}[\log P(\text{here} |\text{Yes})\\
+          &+ \log P(\text{we}| \text{Yes}, \text{here})\\
+          &+ \log P(\text{go}| \text{Yes}, \text{here}, \text{we})\\
+          &+ \log P(\text{again}| \text{Yes}, \text{here}, \text{we}, \text{go})\\
+          &+ \log P(\text{give}| \text{Yes}, \text{here}, \text{we}, \text{go}, \text{again})\\
+          &+ \log P(\text{you}|\text{Yes}, \text{here}, \text{we}, \text{go}, \text{again}, \text{give})\\
+          &+ \log P(\text{more}| \text{Yes}, \text{here}, \text{we}, \text{go}, \text{again}, \text{give}, \text{you})\\
+          &+ \log P(\text{nothing}| \text{Yes}, \text{here}, \text{we}, \text{go}, \text{again}, \text{give}, \text{you}, \text{more})\\
+          &+ \log P(\text{lesser}| \text{Yes}, \text{here}, \text{we}, \text{go}, \text{again}, \text{give}, \text{you}, \text{more}, \text{nothing})\\
+          &+ \log P(<\text{eos}>| \text{Yes}, \text{here}, \text{we}, \text{go}, \text{again}, \text{give}, \text{you}, \text{more}, \text{nothing}, \text{lesser})]
 \end{align*}
 
 \end{frame}
@@ -944,7 +947,41 @@ Mikolov et al (2011)\cite{Mikolov11} & $163.2$  & $149.9$ \\ \hline
 \end{figure}
 \end{frame}
 
+
 \begin{frame}{LSTM}
+\input{TikzFiles/LSTM_simplified}
+\end{frame}
+
+
+\begin{frame}{LSTM: unfolded model}
+\input{TikzFiles/LSTM_unfolded}
+\end{frame}
+
+
+\begin{frame}{Simplification}
+\input{TikzFiles/Add_op_simplified}
+\end{frame}
+
+
+\begin{frame}{LSTM: recurrence}
+\input{TikzFiles/LSTM_cell}
+\end{frame}
+
+
+\begin{frame}{LSTM: equations}
+\LARGE{
+\begin{align*}
+\vect{i}_t &= \sigma \left ( \vect{U}_i \vect{x}_t + \vect{W}_i \vect{h}_{t-1} \right ) \\
+\vect{f}_t &= \sigma \left ( \vect{U}_f \vect{x}_t + \vect{W}_f \vect{h}_{t-1} \right ) \\
+\vect{o}_t &= \sigma \left ( \vect{U}_o \vect{x}_t + \vect{W}_o \vect{h}_{t-1} \right ) \\
+\vect{\tilde{c}}_t &= \textnormal{tanh} \left ( \vect{U}_c \vect{x}_t + \vect{W}_c \vect{h}_{t-1} \right ) \\
+\vect{c}_t &= \vect{f}_t \circ \vect{c}_{t-1} + \vect{i}_t \circ \vect{\tilde{c}}_t \\
+\vect{h}_t &= \vect{o}_t \circ \textnormal{tanh}(\vect{c}_t)
+\end{align*}}
+\end{frame}
+
+
+\begin{frame}{LSTM: changing cell}
 \url{http://blog.ycombinator.com/jeff-deans-lecture-for-yc-ai/}
 
 \begin{center}
@@ -966,7 +1003,7 @@ Mikolov et al (2011)\cite{Mikolov11} & $163.2$  & $149.9$ \\ \hline
 
 \begin{frame}[allowframebreaks]{References}
 
-  \bibliography{demo}
+  \bibliography{my_references}
   \bibliographystyle{abbrv}
 
 \end{frame}

@@ -18,17 +18,17 @@
 \begin{tikzpicture}[auto]
 
 % timestep 1
-\rnnSimple{(1)}{Am}{t1}{}
+\rnnSimple{(1)}{Yes}{t1}{}
 
 % % timestep 0
 \node[state, minimum size=40pt,left=50pt of ht1] (ht0) {$\vect{h}^{(0)}$};
 
 % % timestep 2
-\rnnSimple{(2)}{I}{t2}{right=50pt of ht1};
+\rnnSimple{(2)}{here}{t2}{right=50pt of ht1};
 
 
 % % timestep 2
-\rnnSimple{(3)}{to}{t3}{right=50pt of ht2};
+\rnnSimple{(3)}{we}{t3}{right=50pt of ht2};
 
 
 % % state transfers
@@ -37,7 +37,7 @@
 \path[tedge] (ht2) edge node[above right = 2pt] {$\vect{W}$} (ht3);
 
 % text
-\node[textonly, above=40pt of yhatt2] (result) {{\Large $P(x^{(4)}| \text{Am, I, to})$}};
+\node[textonly, above=40pt of yhatt2] (result) {{\Large $P(x^{(4)}| \text{Yes, here, we})$}};
 
 % Arrow to result
 %  \path[tedge] (yhatt3)  edge node[bend right, out=-50, distance=25pt] (result);
