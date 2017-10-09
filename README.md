@@ -1,4 +1,4 @@
-# RNNpresentation: A presentation about Recurrent Neural Network.
+# RNNpresentation: A presentation about Recurrent Neural Networks.
 
 ![alt text](gifs/cc-logo.png "CC")
 
