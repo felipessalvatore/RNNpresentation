@@ -753,7 +753,6 @@ So another definition of perplexity is
 \input{TikzFiles/rnn-backprop}
 \end{frame}
 
-
 \begin{frame}{Back Propagation Throught Time}
 \input{TikzFiles/rnn-backprop-through-time}
 \end{frame}
@@ -793,25 +792,8 @@ With some notation we can simplify these gradients as follows:
 \begin{eqnarray*}
 \grad{\vect{U}^{(1)}}{L^{(3)}} = \outerp{\left(diag(\vect{b}^{(1)}) \vect{W}^{T} \right) \left(diag(\vect{b}^{(2)}) \vect{W}^{T}\right) \vect{c}}{\vect{x}^{(1)}}
 \end{eqnarray*}
+
 \end{frame}
-
-\begin{frame}{Taking a closer look}
-
-
-\[
-\grad{\vect{U}^{(1)}}{L^{(\tau)}}
-\]
-\[
-=
-\]
-\[
-\outerp{\left(diag(\vect{b}^{(1)}) \vect{W}^{T} \right) \left(diag(\vect{b}^{(2)}) \vect{W}^{T}\right) \dots \left(diag(\vect{b}^{(\tau-1)}) \vect{W}^{T}\right)\vect{c}}{\vect{x}^{(1)}}
-\]
-
-\vspace{0.5cm}
-
-\textbf{Gradient for further time steps will have more matrix products using $diag(\vect{b}) \vect{W}^{T}$.
-}\end{frame}
 
 \begin{frame}{Vanishing}
 
@@ -822,8 +804,6 @@ If we initialize $\vect{W}$ such that $||\vect{W}|| < 1$, the gradient for furth
 
 
 \end{frame}
-
-
 
 \begin{frame}{Exploding}
 
